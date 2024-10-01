@@ -1,0 +1,1 @@
+Github actionsやyamlファイルの練習

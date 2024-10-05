@@ -17,26 +17,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         id: checkout
-        # with:
-        #   fetch-depth: 1
-
+        with:
+          fetch-depth: 1
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        id: setup_python
+        with:
+          python-version: '3.12.3'
+        
+      - name: Install dependencies
+        id: install_dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        
       - name: Run tests
-        run: echo "Running tests"          
-
-      # - name: Set up Python
-      #   uses: actions/setup-python@v5
-      #   id: setup_python
-      #   with:
-      #     python-version: '3.12.3'
-        
-      # - name: Install dependencies
-      #   id: install_dependencies
-      #   run: |
-      #     python -m pip install --upgrade pip
-      #     pip install -r requirements.txt
-        
-      # - name: Run tests
-      #   id: run_tests
-      #   run: |
-      #     python -m unittest discover
-
+        id: run_tests
+        run: |
+          python -m unittest discover
+    outputs:
+      test_status: ${{ steps.run_tests.outcome }}
